@@ -58,10 +58,7 @@ public class WalliPlayer {
     }
 
     // Run only in onJoinEvents.
-    public void apiSetup(Team team) {
-        this.team = team;
-
-        // This must be true.
+    public void apiSetup() {
         this.player = Bukkit.getPlayer(this.uuid);
     }
 

@@ -2,9 +2,11 @@ package com.github.floofcat.walliapi.objects.teams;
 
 import com.github.floofcat.walliapi.WalliAPI;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class TeamController {
 
@@ -51,5 +53,27 @@ public class TeamController {
         }
 
         return returningTeam;
+    }
+
+    public boolean doesPlayerExist(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        boolean returningBoolean = false;
+        for(WalliPlayer walliPlayer : this.players) {
+            if(walliPlayer == null) {
+                continue;
+            }
+
+            if(!walliPlayer.isValid()) {
+                continue;
+            }
+
+            if(walliPlayer.getUUID().equals(uuid)) {
+                returningBoolean = true;
+                break;
+            }
+        }
+
+        return returningBoolean;
     }
 }
