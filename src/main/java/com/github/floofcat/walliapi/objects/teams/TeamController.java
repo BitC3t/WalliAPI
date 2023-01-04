@@ -36,4 +36,20 @@ public class TeamController {
     public Set<WalliPlayer> getPlayers() {
         return this.players;
     }
+
+    public Team getTeamFromName(String teamName) {
+        Team returningTeam = null;
+        for(Team team : this.teams) {
+            if(team == null) {
+                continue;
+            }
+
+            if(team.getShortName().equalsIgnoreCase(teamName)) {
+                returningTeam = team;
+                break;
+            }
+        }
+
+        return returningTeam;
+    }
 }
