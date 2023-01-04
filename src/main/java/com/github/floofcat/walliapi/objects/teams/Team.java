@@ -5,12 +5,17 @@ public class Team {
     private String shortName;
     private String formattedName;
     private boolean isPlaying;
+    private String teamColor;
+    private String teamSymbol;
     private int finalScores;
 
-    public Team(String shortName, String formattedName, boolean isPlaying, int finalScores) {
+    public Team(String shortName, String formattedName, String teamColor,
+                String teamSymbol, boolean isPlaying, int finalScores) {
         this.shortName = shortName;
         this.formattedName = formattedName;
         this.isPlaying = isPlaying;
+        this.teamColor = teamColor;
+        this.teamSymbol = teamSymbol;
         this.finalScores = finalScores;
     }
 
@@ -32,5 +37,13 @@ public class Team {
 
     public String getShortName() {
         return this.shortName;
+    }
+
+    public String getTeamColor() {
+        return this.teamColor;
+    }
+
+    public String getTeamSymbol() {
+        return this.teamSymbol;
     }
 }

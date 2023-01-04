@@ -9,6 +9,7 @@ import java.util.Set;
 public class TeamController {
 
     private Set<Team> teams = new HashSet<>();
+    private Set<Team> playingTeams = new HashSet<>();
     private Set<WalliPlayer> players = new HashSet<>();
     private final WalliAPI plugin;
 
@@ -22,6 +23,10 @@ public class TeamController {
 
     public void addTeam(Team team) {
         this.teams.add(team);
+
+        if(team.isPlaying()) {
+           playingTeams.add(team);
+        }
     }
 
     public Set<Team> getTeams() {
