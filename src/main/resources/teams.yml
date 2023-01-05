@@ -1,0 +1,6 @@
+Spectators:
+  formatted-name: &7Spectators
+  team-color: &7
+  team-symbol: 是
+  is-playing: false
+  team-score: 0

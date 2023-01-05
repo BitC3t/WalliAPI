@@ -54,5 +54,7 @@ public class RegistryEvents implements Listener {
         WalliPlayer walliPlayer = this.plugin.getWalliPlayer(event.getPlayer());
 
         walliPlayer.apiDeregister();
+
+        this.plugin.getLogger().info("[WP] " + event.getPlayer().getName() + " has disconnected and hence deregistered.");
     }
 }

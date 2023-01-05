@@ -19,10 +19,10 @@ public class TeamRegistry {
     }
 
     public void init() throws IOException {
-        FileManager teamManager = new FileManager("teams.yml", this.plugin);
+        this.teamManager = new FileManager("teams.yml", this.plugin);
         teamManager.createFile();
 
-        FileManager playerManager = new FileManager("players.yml", this.plugin);
+        this.playerManager = new FileManager("players.yml", this.plugin);
         playerManager.createFile();
 
         this.readTeams();
@@ -69,6 +69,8 @@ public class TeamRegistry {
     public void registerPlayer(UUID uuid, Team team) throws IOException {
         WalliPlayer walliPlayer = new WalliPlayer(uuid, team, 0);
         walliPlayer.apiSetup();
+
+        this.plugin.getTeamController().addPlayer(walliPlayer);
 
         YamlConfiguration config = this.playerManager.getConfig();
 

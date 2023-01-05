@@ -64,10 +64,6 @@ public class TeamController {
                 continue;
             }
 
-            if(!walliPlayer.isValid()) {
-                continue;
-            }
-
             if(walliPlayer.getUUID().equals(uuid)) {
                 returningBoolean = true;
                 break;
