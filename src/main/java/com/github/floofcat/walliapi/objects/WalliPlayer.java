@@ -1,5 +1,7 @@
 package com.github.floofcat.walliapi.objects;
 
+import com.github.floofcat.walliapi.WalliAPI;
+import com.github.floofcat.walliapi.config.FileManager;
 import com.github.floofcat.walliapi.objects.teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -55,6 +57,12 @@ public class WalliPlayer {
 
     public void changeTeam(Team team) {
         this.team = team;
+
+        if(!this.isValid()) {
+            return;
+        }
+
+        WalliAPI.getInstance().getTeamRegistry().switchTeam(this.player, team);
     }
 
     // Run only in onJoinEvents.

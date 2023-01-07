@@ -1,7 +1,6 @@
 package com.github.floofcat.walliapi.game;
 
 import com.github.floofcat.walliapi.WalliAPI;
-import org.bukkit.block.data.type.Wall;
 
 import java.io.IOException;
 import java.util.UUID;

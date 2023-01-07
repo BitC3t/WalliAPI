@@ -4,6 +4,7 @@ import com.github.floofcat.walliapi.WalliAPI;
 import com.github.floofcat.walliapi.config.FileManager;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -61,6 +62,25 @@ public class TeamRegistry {
 
             } catch (Exception e) {
                 this.plugin.getLogger().info("Failed to read the players.yml.");
+            }
+        }
+    }
+
+    public void switchTeam(Player player, Team team) {
+        for(String playerUUID : playerManager.getConfig().getKeys(false)) {
+            try {
+                UUID uuid = UUID.fromString(playerUUID);
+                if(!uuid.equals(player.getUniqueId())) {
+                    continue;
+                }
+
+                YamlConfiguration config = this.playerManager.getConfig();
+                config.set(playerUUID + ".player-team", team.getShortName());
+
+                this.playerManager.save(config);
+
+            } catch (Exception e) {
+                this.plugin.getLogger().info("Failed to write to players.yml.");
             }
         }
     }
