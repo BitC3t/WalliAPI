@@ -13,6 +13,7 @@ public class WalliPlayer {
     private UUID uuid;
     private Player player;
     private Team team;
+    private boolean isSpectator = false;
     private int score = 0;
 
     public WalliPlayer(UUID uuid, Team team, int score) {
@@ -25,6 +26,14 @@ public class WalliPlayer {
         } else {
             this.player = null;
         }
+    }
+
+    public boolean isSpectator() {
+        return this.isSpectator;
+    }
+
+    public void setSpectator(boolean spectator) {
+        this.isSpectator = spectator;
     }
 
     public int getScore() {

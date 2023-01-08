@@ -24,4 +24,8 @@ public class GameUtils {
                     ChatColor.translateAlternateColorCodes('&',message)));
         }
     }
+
+    public static char getSkullIcon() {
+        return '\u2620';
+    }
 }
