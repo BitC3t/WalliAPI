@@ -45,6 +45,7 @@ public class GameTimer extends BukkitRunnable {
         }
 
         this.bar.setTitle(title + " - " + this.secondsToString(this.currentTicks / 20));
+        this.bar.setProgress(this.currentTicks / this.countTicks);
     }
 
     public void addPlayer(Player player) {
