@@ -71,6 +71,8 @@ public final class WalliAPI extends JavaPlugin {
         return returning;
     }
 
+
+
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new RegistryEvents(this), this);
     }
