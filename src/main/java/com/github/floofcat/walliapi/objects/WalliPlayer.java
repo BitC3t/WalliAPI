@@ -5,6 +5,7 @@ import com.github.floofcat.walliapi.config.FileManager;
 import com.github.floofcat.walliapi.objects.teams.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -34,6 +35,12 @@ public class WalliPlayer {
 
     public void setSpectator(boolean spectator) {
         this.isSpectator = spectator;
+
+        for(ItemStack itemStack : player.getInventory()) {
+            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), itemStack);
+        }
+
+        player.getInventory().clear();
     }
 
     public int getScore() {
