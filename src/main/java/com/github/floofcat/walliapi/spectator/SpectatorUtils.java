@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpectatorUtils {
 
-    public void setSpectator(Player player) {
+    public static void setSpectator(Player player) {
         player.setInvisible(true);
         player.setHealth(20.0f);
         player.setFlying(true);
@@ -21,5 +21,13 @@ public class SpectatorUtils {
         itemStack.setItemMeta(itemMeta);
 
         player.getInventory().addItem(itemStack);
+    }
+
+    public static void unsetSpectator(Player player) {
+        player.setInvisible(false);
+        player.setHealth(20.0f);
+        player.setFlying(false);
+        player.setAllowFlight(false);
+        player.setInvulnerable(false);
     }
 }

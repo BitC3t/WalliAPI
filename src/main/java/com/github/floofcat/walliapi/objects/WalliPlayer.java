@@ -3,6 +3,8 @@ package com.github.floofcat.walliapi.objects;
 import com.github.floofcat.walliapi.WalliAPI;
 import com.github.floofcat.walliapi.config.FileManager;
 import com.github.floofcat.walliapi.objects.teams.Team;
+import com.github.floofcat.walliapi.spectator.SpectatorEvents;
+import com.github.floofcat.walliapi.spectator.SpectatorUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,11 +38,15 @@ public class WalliPlayer {
     public void setSpectator(boolean spectator) {
         this.isSpectator = spectator;
 
-        for(ItemStack itemStack : player.getInventory()) {
-            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), itemStack);
-        }
+        if(spectator == true) {
+            for(ItemStack itemStack : player.getInventory()) {
+                player.getLocation().getWorld().dropItemNaturally(player.getLocation(), itemStack);
+            }
 
-        player.getInventory().clear();
+            player.getInventory().clear();
+
+            SpectatorUtils.setSpectator(player);
+        }
     }
 
     public int getScore() {

@@ -1,10 +1,12 @@
 package com.github.floofcat.walliapi;
 
+import com.github.floofcat.walliapi.commands.ComExecutor;
 import com.github.floofcat.walliapi.events.RegistryEvents;
 import com.github.floofcat.walliapi.game.GameRegistry;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
 import com.github.floofcat.walliapi.objects.teams.TeamController;
 import com.github.floofcat.walliapi.objects.teams.TeamRegistry;
+import com.github.floofcat.walliapi.spectator.SpectatorEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +34,7 @@ public final class WalliAPI extends JavaPlugin {
 
         // Registration of Events & Commands
         this.registerEvents();
+        this.registerCommands();
     }
 
     @Override
@@ -71,9 +74,13 @@ public final class WalliAPI extends JavaPlugin {
         return returning;
     }
 
-
+    private void registerCommands() {
+        this.getCommand("walliapi").setExecutor(new ComExecutor(this));
+        this.getCommand("walliapi").setTabCompleter(new ComExecutor(this));
+    }
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new RegistryEvents(this), this);
+        Bukkit.getPluginManager().registerEvents(new SpectatorEvents(this), this);
     }
 }
