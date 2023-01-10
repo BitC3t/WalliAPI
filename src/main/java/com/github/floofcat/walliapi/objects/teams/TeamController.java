@@ -35,6 +35,19 @@ public class TeamController {
         return this.teams;
     }
 
+    public Set<Team> getPlayingTeam() {
+        Set<Team> playingTeams = new HashSet<>();
+        for(Team team : this.teams) {
+            if(!team.isPlaying()) {
+                continue;
+            }
+
+            playingTeams.add(team);
+        }
+
+        return playingTeams;
+    }
+
     public Set<WalliPlayer> getPlayers() {
         return this.players;
     }

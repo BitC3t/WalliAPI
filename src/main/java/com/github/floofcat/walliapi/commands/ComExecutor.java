@@ -1,6 +1,8 @@
 package com.github.floofcat.walliapi.commands;
 
 import com.github.floofcat.walliapi.WalliAPI;
+import com.github.floofcat.walliapi.objects.teams.Team;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -67,6 +69,26 @@ public class ComExecutor implements CommandExecutor, TabCompleter {
             Collections.sort(completions);
 
             return completions;
+        } else if(args.length == 3) {
+            completions.clear();
+            List<String> tempList = new ArrayList<>();
+
+            for(Team team : this.plugin.getTeamController().getTeams()) {
+                tempList.add(team.getShortName());
+            }
+
+            StringUtil.copyPartialMatches(args[2], tempList, completions);
+            Collections.sort(completions);
+        } else if(args.length == 2) {
+            completions.clear();
+            List<String> tempList = new ArrayList<>();
+
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                tempList.add(player.getName());
+            }
+
+            StringUtil.copyPartialMatches(args[1], tempList, completions);
+            Collections.sort(completions);
         }
         return completions;
     }

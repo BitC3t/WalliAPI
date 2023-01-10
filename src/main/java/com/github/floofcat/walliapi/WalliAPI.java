@@ -19,10 +19,12 @@ public final class WalliAPI extends JavaPlugin {
     private TeamController teamController = new TeamController(this);
     private TeamRegistry teamRegistry = new TeamRegistry(this);
     private GameRegistry gameRegistry = new GameRegistry(this);
+    private static WalliAPI instance;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        instance = this;
 
         // Initialisation of Controllers
         try {
@@ -39,11 +41,10 @@ public final class WalliAPI extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
     }
 
-    public static @NotNull WalliAPI getInstance() {
-        return JavaPlugin.getPlugin(WalliAPI.class);
+    public static WalliAPI getInstance() {
+        return instance;
     }
 
     public TeamController getTeamController() {

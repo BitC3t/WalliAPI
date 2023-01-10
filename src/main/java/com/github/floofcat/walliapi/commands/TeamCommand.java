@@ -31,6 +31,6 @@ public class TeamCommand {
         walliPlayer.changeTeam(team);
 
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                "&7[&6" + '\u270E' + "&7] &f" + playerName + " has been moved to " + team.getTeamColor() + newTeam + " from " + oldTeam.getTeamColor() + oldTeam.getShortName() + "."));
+                "&7[&6" + '\u270E' + "&7] &f" + playerName + " has been moved to " + team.getTeamColor() + newTeam + " &ffrom " + oldTeam.getTeamColor() + oldTeam.getShortName() + "."));
     }
 }

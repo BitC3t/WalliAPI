@@ -46,6 +46,8 @@ public class WalliPlayer {
             player.getInventory().clear();
 
             SpectatorUtils.setSpectator(player);
+        } else if(spectator == false) {
+            SpectatorUtils.unsetSpectator(player);
         }
     }
 

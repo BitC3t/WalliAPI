@@ -4,3 +4,6 @@ main: com.github.floofcat.walliapi.WalliAPI
 api-version: 1.17
 authors: [ Floof ]
 description: A Paper Plugin / API for everything related to Wallibear
+commands:
+  walliapi:
+    Description: API Command
