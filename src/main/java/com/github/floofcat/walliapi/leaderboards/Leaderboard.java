@@ -26,8 +26,10 @@ public class Leaderboard {
         return this.boardMap;
     }
 
-    public void addPlayer(WalliPlayer wp) {
+    public FastBoard addPlayer(WalliPlayer wp) {
         FastBoard fastBoard = new FastBoard(wp.getPlayer());
         boardMap.put(wp, fastBoard);
+
+        return fastBoard;
     }
 }

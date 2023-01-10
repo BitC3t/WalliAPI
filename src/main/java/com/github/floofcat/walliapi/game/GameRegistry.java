@@ -45,7 +45,7 @@ public class GameRegistry {
             YamlConfiguration config = this.gameManager.getConfig();
 
             uuid = UUID.randomUUID();
-            config.set(game.getGameIdentifier() + ".uuid", uuid);
+            config.set(game.getGameIdentifier() + ".uuid", uuid.toString());
 
             this.gameManager.save(config);
         }
@@ -59,7 +59,7 @@ public class GameRegistry {
 
     public void readGames() {
         for(String gameIdentifier : this.gameManager.getConfig().getKeys(false)) {
-            UUID uuid = UUID.fromString(gameIdentifier + ".uuid");
+            UUID uuid = UUID.fromString(this.gameManager.getConfig().getString(gameIdentifier + ".uuid"));
 
             this.gameHash.put(gameIdentifier, uuid);
         }
