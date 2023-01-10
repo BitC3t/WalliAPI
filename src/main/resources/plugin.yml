@@ -3,6 +3,9 @@ version: '${project.version}'
 main: com.github.floofcat.walliapi.WalliAPI
 api-version: 1.17
 authors: [ Floof ]
+depend:
+  - WorldGuard
+  - WorldEdit
 description: A Paper Plugin / API for everything related to Wallibear
 commands:
   walliapi:
