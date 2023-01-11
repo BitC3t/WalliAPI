@@ -5,6 +5,7 @@ import com.github.floofcat.walliapi.config.FileManager;
 import com.github.floofcat.walliapi.objects.teams.Team;
 import com.github.floofcat.walliapi.spectator.SpectatorEvents;
 import com.github.floofcat.walliapi.spectator.SpectatorUtils;
+import com.github.floofcat.walliapi.utils.GlowUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -46,6 +47,7 @@ public class WalliPlayer {
             player.getInventory().clear();
 
             SpectatorUtils.setSpectator(player);
+            GlowUtils.stopGlow(WalliAPI.getInstance().getWalliPlayer(player));
         } else if(spectator == false) {
             SpectatorUtils.unsetSpectator(player);
         }
