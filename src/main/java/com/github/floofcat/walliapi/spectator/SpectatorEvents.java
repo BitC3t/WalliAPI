@@ -12,9 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -64,6 +62,17 @@ public class SpectatorEvents implements Listener {
         }
     }
 
+    @EventHandler
+    public void onMobTarget(EntityTargetLivingEntityEvent event) {
+        if(event.getTarget() instanceof Player) {
+            Player p = (Player) event.getTarget();
+
+            WalliPlayer wp = this.plugin.getWalliPlayer(p);
+            if(wp.isSpectator()) {
+                event.setCancelled(true);
+            }
+        }
+    }
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         WalliPlayer wp = this.plugin.getWalliPlayer(event.getPlayer());
@@ -132,6 +141,7 @@ public class SpectatorEvents implements Listener {
                 nextMeta.setCustomModelData(10000);
                 nextMeta.displayName(PlainTextComponentSerializer.plainText().
                         deserialize(ChatColor.GREEN + "Next Page"));
+                nextPage.setItemMeta(nextMeta);
                 inventory.setItem(53, nextPage);
 
                 for(WalliPlayer page2 : pageTwo) {
@@ -151,6 +161,7 @@ public class SpectatorEvents implements Listener {
                 prevMeta.setCustomModelData(10001);
                 prevMeta.displayName(PlainTextComponentSerializer.plainText().
                         deserialize(ChatColor.RED + "Previous Page"));
+                prevPage.setItemMeta(prevMeta);
                 inventory2.setItem(45, prevPage);
 
                 ItemStack nextPage1 = new ItemStack(Material.GREEN_WOOL, 1);
@@ -158,6 +169,7 @@ public class SpectatorEvents implements Listener {
                 nextMeta1.setCustomModelData(10002);
                 nextMeta1.displayName(PlainTextComponentSerializer.plainText().
                         deserialize(ChatColor.GREEN + "Next Page"));
+                nextPage1.setItemMeta(nextMeta1);
                 inventory2.setItem(53, nextPage1);
 
                 for(WalliPlayer page3 : pageThree) {
@@ -179,6 +191,7 @@ public class SpectatorEvents implements Listener {
                 nextMeta2.setCustomModelData(10003);
                 nextMeta2.displayName(PlainTextComponentSerializer.plainText().
                         deserialize(ChatColor.RED + "Previous Page"));
+                nextPage2.setItemMeta(nextMeta2);
                 inventory3.setItem(45, nextPage2);
 
                 wp.getPlayer().openInventory(inventory);
