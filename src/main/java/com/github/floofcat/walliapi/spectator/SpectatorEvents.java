@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -44,6 +45,19 @@ public class SpectatorEvents implements Listener {
         }
 
         WalliPlayer wp = this.plugin.getWalliPlayer((Player) event.getEntity());
+
+        if(wp.isSpectator()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if(!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        Player player = (Player) event.getEntity();
+        WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(player);
 
         if(wp.isSpectator()) {
             event.setCancelled(true);
