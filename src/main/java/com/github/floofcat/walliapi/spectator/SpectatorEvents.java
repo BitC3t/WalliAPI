@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -61,6 +62,10 @@ public class SpectatorEvents implements Listener {
         event.setCancelled(true);
 
         ItemStack interactedItem = event.getItem();
+        if(interactedItem == null) {
+            return;
+        }
+
         if(interactedItem.getType().equals(Material.COMPASS)) {
             ItemMeta itemMeta = interactedItem.getItemMeta();
             if(itemMeta.getCustomModelData() == 10000) {
@@ -106,14 +111,14 @@ public class SpectatorEvents implements Listener {
                     skullItem.setItemMeta(skullMeta);
 
                     inventory.addItem(skullItem);
-
-                    ItemStack nextPage = new ItemStack(Material.GREEN_WOOL, 1);
-                    ItemMeta nextMeta = nextPage.getItemMeta();
-                    nextMeta.setCustomModelData(10000);
-                    nextMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(ChatColor.GREEN + "Next Page"));
-                    inventory.setItem(53, nextPage);
                 }
+
+                ItemStack nextPage = new ItemStack(Material.GREEN_WOOL, 1);
+                ItemMeta nextMeta = nextPage.getItemMeta();
+                nextMeta.setCustomModelData(10000);
+                nextMeta.displayName(PlainTextComponentSerializer.plainText().
+                        deserialize(ChatColor.GREEN + "Next Page"));
+                inventory.setItem(53, nextPage);
 
                 for(WalliPlayer page2 : pageTwo) {
                     ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
@@ -125,21 +130,21 @@ public class SpectatorEvents implements Listener {
                     skullItem.setItemMeta(skullMeta);
 
                     inventory2.addItem(skullItem);
-
-                    ItemStack prevPage = new ItemStack(Material.RED_WOOL, 1);
-                    ItemMeta prevMeta = prevPage.getItemMeta();
-                    prevMeta.setCustomModelData(10001);
-                    prevMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(ChatColor.RED + "Previous Page"));
-                    inventory2.setItem(45, prevPage);
-
-                    ItemStack nextPage = new ItemStack(Material.GREEN_WOOL, 1);
-                    ItemMeta nextMeta = nextPage.getItemMeta();
-                    nextMeta.setCustomModelData(10002);
-                    nextMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(ChatColor.GREEN + "Next Page"));
-                    inventory2.setItem(53, nextPage);
                 }
+
+                ItemStack prevPage = new ItemStack(Material.RED_WOOL, 1);
+                ItemMeta prevMeta = prevPage.getItemMeta();
+                prevMeta.setCustomModelData(10001);
+                prevMeta.displayName(PlainTextComponentSerializer.plainText().
+                        deserialize(ChatColor.RED + "Previous Page"));
+                inventory2.setItem(45, prevPage);
+
+                ItemStack nextPage1 = new ItemStack(Material.GREEN_WOOL, 1);
+                ItemMeta nextMeta1 = nextPage1.getItemMeta();
+                nextMeta1.setCustomModelData(10002);
+                nextMeta1.displayName(PlainTextComponentSerializer.plainText().
+                        deserialize(ChatColor.GREEN + "Next Page"));
+                inventory2.setItem(53, nextPage1);
 
                 for(WalliPlayer page3 : pageThree) {
                     ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
@@ -152,13 +157,17 @@ public class SpectatorEvents implements Listener {
 
                     inventory3.addItem(skullItem);
 
-                    ItemStack nextPage = new ItemStack(Material.RED_WOOL, 1);
-                    ItemMeta nextMeta = nextPage.getItemMeta();
-                    nextMeta.setCustomModelData(10003);
-                    nextMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(ChatColor.RED + "Previous Page"));
-                    inventory3.setItem(45, nextPage);
+
                 }
+
+                ItemStack nextPage2 = new ItemStack(Material.RED_WOOL, 1);
+                ItemMeta nextMeta2 = nextPage2.getItemMeta();
+                nextMeta2.setCustomModelData(10003);
+                nextMeta2.displayName(PlainTextComponentSerializer.plainText().
+                        deserialize(ChatColor.RED + "Previous Page"));
+                inventory3.setItem(45, nextPage2);
+
+                wp.getPlayer().openInventory(inventory);
             }
         }
 
@@ -168,15 +177,15 @@ public class SpectatorEvents implements Listener {
     public void onInventoryInteract(InventoryClickEvent event) {
         if(event.getClickedInventory().equals(inventory)) {
             event.setCancelled(true);
-            if(event.getCursor().getType().equals(Material.PLAYER_HEAD)) {
-                SkullMeta meta = (SkullMeta) event.getCursor().getItemMeta();
+            if(event.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
+                SkullMeta meta = (SkullMeta) event.getCurrentItem().getItemMeta();
                 Player player = meta.getOwningPlayer().getPlayer();
 
                 event.getWhoClicked().teleport(player.getLocation());
                 event.getWhoClicked().closeInventory();
             }
 
-            if(event.getCursor().getType().equals(Material.GREEN_WOOL)) {
+            if(event.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
                 event.getWhoClicked().closeInventory();
                 event.getWhoClicked().openInventory(inventory2);
             }
@@ -184,20 +193,20 @@ public class SpectatorEvents implements Listener {
 
         if(event.getClickedInventory().equals(inventory2)) {
             event.setCancelled(true);
-            if(event.getCursor().getType().equals(Material.PLAYER_HEAD)) {
-                SkullMeta meta = (SkullMeta) event.getCursor().getItemMeta();
+            if(event.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
+                SkullMeta meta = (SkullMeta) event.getCurrentItem().getItemMeta();
                 Player player = meta.getOwningPlayer().getPlayer();
 
                 event.getWhoClicked().teleport(player.getLocation());
                 event.getWhoClicked().closeInventory();
             }
 
-            if(event.getCursor().getType().equals(Material.GREEN_WOOL)) {
+            if(event.getCurrentItem().getType().equals(Material.GREEN_WOOL)) {
                 event.getWhoClicked().closeInventory();
                 event.getWhoClicked().openInventory(inventory3);
             }
 
-            if(event.getCursor().getType().equals(Material.RED_WOOL)) {
+            if(event.getCurrentItem().getType().equals(Material.RED_WOOL)) {
                 event.getWhoClicked().closeInventory();
                 event.getWhoClicked().openInventory(inventory);
             }
@@ -205,18 +214,31 @@ public class SpectatorEvents implements Listener {
 
         if(event.getClickedInventory().equals(inventory3)) {
             event.setCancelled(true);
-            if(event.getCursor().getType().equals(Material.PLAYER_HEAD)) {
-                SkullMeta meta = (SkullMeta) event.getCursor().getItemMeta();
+            if(event.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
+                SkullMeta meta = (SkullMeta) event.getCurrentItem().getItemMeta();
                 Player player = meta.getOwningPlayer().getPlayer();
 
                 event.getWhoClicked().teleport(player.getLocation());
                 event.getWhoClicked().closeInventory();
             }
 
-            if(event.getCursor().getType().equals(Material.RED_WOOL)) {
+            if(event.getCurrentItem().getType().equals(Material.RED_WOOL)) {
                 event.getWhoClicked().closeInventory();
-                event.getWhoClicked().openInventory(inventory);
+                event.getWhoClicked().openInventory(inventory2);
             }
+        }
+    }
+
+    @EventHandler
+    public void onInventoryMove(InventoryMoveItemEvent event) {
+        if(event.getSource().getHolder() instanceof Player) {
+            WalliPlayer wp = this.plugin.getWalliPlayer((Player) event.getSource().getHolder());
+
+            if(!wp.isSpectator()) {
+                return;
+            }
+
+            event.setCancelled(true);
         }
     }
 

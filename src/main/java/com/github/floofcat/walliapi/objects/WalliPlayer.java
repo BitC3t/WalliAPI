@@ -41,6 +41,9 @@ public class WalliPlayer {
 
         if(spectator == true) {
             for(ItemStack itemStack : player.getInventory()) {
+                if(itemStack == null) {
+                    continue;
+                }
                 player.getLocation().getWorld().dropItemNaturally(player.getLocation(), itemStack);
             }
 

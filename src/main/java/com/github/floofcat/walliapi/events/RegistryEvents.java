@@ -2,6 +2,9 @@ package com.github.floofcat.walliapi.events;
 
 import com.github.floofcat.walliapi.WalliAPI;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
+import com.github.floofcat.walliapi.spectator.SpectatorUtils;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.ChatColor;
 import org.bukkit.block.data.type.Wall;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +26,11 @@ public class RegistryEvents implements Listener {
     public void onJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        // Hide Spectators to the player.
+        for(Player p : SpectatorUtils.getSpectators()) {
+            player.hidePlayer(this.plugin, p);
+        }
+
         // Check if this player has a valid WalliPlayer Object.
         if(this.plugin.getTeamController().doesPlayerExist(player)) {
             // Update the WalliPlayer object with the BukkitPlayer
@@ -35,6 +43,10 @@ public class RegistryEvents implements Listener {
 
             walliPlayer.apiSetup();
             this.plugin.getLogger().info("[WP] " + player.getName() + " is already registered to a WalliPlayer. Object reconnected!");
+
+            event.joinMessage(PlainTextComponentSerializer.plainText()
+                    .deserialize(ChatColor.translateAlternateColorCodes('&',
+                            "&7[&a+&7] " + walliPlayer.getTeam().getTeamColor() + "🛡 " + walliPlayer.getPlayer().getName() + " &ahas joined the server.")));
             return;
         }
 
@@ -47,11 +59,20 @@ public class RegistryEvents implements Listener {
         }
 
         this.plugin.getLogger().info("[WP] " + player.getName() + " has been connected to a new WalliPlayer object.");
+
+        WalliPlayer walliPlayer = this.plugin.getWalliPlayer(player);
+        event.joinMessage(PlainTextComponentSerializer.plainText()
+                .deserialize(ChatColor.translateAlternateColorCodes('&',
+                        "&7[&a+&7] " + walliPlayer.getTeam().getTeamColor() + "🛡 " + walliPlayer.getPlayer().getName() + " &ahas joined the server.")));
     }
 
     @EventHandler
     public void onLeaveEvent(PlayerQuitEvent event) {
         WalliPlayer walliPlayer = this.plugin.getWalliPlayer(event.getPlayer());
+
+        event.quitMessage(PlainTextComponentSerializer.plainText()
+                .deserialize(ChatColor.translateAlternateColorCodes('&',
+                        "&7[&c-&7] " + walliPlayer.getTeam().getTeamColor() + "🛡 " + walliPlayer.getPlayer().getName() + " &chas left the server.")));
 
         walliPlayer.apiDeregister();
 

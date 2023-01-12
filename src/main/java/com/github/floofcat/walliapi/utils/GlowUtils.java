@@ -11,10 +11,18 @@ import java.util.List;
 public class GlowUtils {
 
     public static void setGlow(WalliPlayer wp) {
-        String colors = wp.getTeam().getTeamColor();
-        char colorCode = colors.charAt(1);
+        GlowAPI.Color color = null;
 
-        GlowAPI.Color color = GlowAPI.Color.valueOf(String.valueOf(colorCode));
+        if(wp.getTeam().getShortName().equals("Red")) {
+            color = GlowAPI.Color.RED;
+        } else if(wp.getTeam().getShortName().equals("Blue")) {
+            color = GlowAPI.Color.BLUE;
+        } else if(wp.getTeam().getShortName().equals("Orange")) {
+            color = GlowAPI.Color.GOLD;
+        } else {
+            color = GlowAPI.Color.GREEN;
+        }
+
         GlowAPI.setGlowing(wp.getPlayer(), color, Bukkit.getOnlinePlayers());
     }
 

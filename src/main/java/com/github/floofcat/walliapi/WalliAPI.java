@@ -1,6 +1,7 @@
 package com.github.floofcat.walliapi;
 
 import com.github.floofcat.walliapi.commands.ComExecutor;
+import com.github.floofcat.walliapi.events.ChatEvents;
 import com.github.floofcat.walliapi.events.RegistryEvents;
 import com.github.floofcat.walliapi.game.GameRegistry;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
@@ -83,5 +84,6 @@ public final class WalliAPI extends JavaPlugin {
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new RegistryEvents(this), this);
         Bukkit.getPluginManager().registerEvents(new SpectatorEvents(this), this);
+        Bukkit.getPluginManager().registerEvents(new ChatEvents(), this);
     }
 }
