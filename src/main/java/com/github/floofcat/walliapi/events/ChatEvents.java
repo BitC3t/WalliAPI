@@ -14,6 +14,12 @@ import org.bukkit.event.Listener;
 
 public class ChatEvents implements Listener {
 
+    private final WalliAPI plugin;
+
+    public ChatEvents(WalliAPI plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void chatEvents(AsyncChatEvent event) {
         Player player = event.getPlayer();
@@ -21,11 +27,45 @@ public class ChatEvents implements Listener {
         WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(player);
         Team team = wp.getTeam();
 
-        event.setCancelled(true);
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    team.getTeamColor() + "🛡 " + player.getName() + "&f: " + PlainTextComponentSerializer
-                            .plainText().serialize(event.message())));
+        if(this.plugin.chatMuted) {
+            event.setCancelled(true);
+            return;
         }
+
+
+        event.setCancelled(true);
+        if(player.isOp()) {
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        team.getTeamColor() + "🛡 [ADMIN]" + player.getName() + "&f: " + PlainTextComponentSerializer
+                                .plainText().serialize(event.message())));
+            }
+            return;
+        }
+
+        if(this.plugin.isSplitChat()) {
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                WalliPlayer wp1 = WalliAPI.getInstance().getWalliPlayer(p);
+
+                if(p.isOp()) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[TEAM - " +
+                            team.getTeamColor() + team.getShortName() + "&7] " + team.getTeamColor() + "🛡 " + player.getName() + "&f: " + PlainTextComponentSerializer
+                            .plainText().serialize(event.message())));
+                    continue;
+                }
+
+                if(wp1.getTeam().equals(team)) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[TEAM - " +
+                            team.getTeamColor() + team.getShortName() + "&7] " + team.getTeamColor() + "🛡 " + player.getName() + "&f: " + PlainTextComponentSerializer
+                                    .plainText().serialize(event.message())));
+                }
+            }
+        } else {
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        team.getTeamColor() + "🛡 " + player.getName() + "&f: " + PlainTextComponentSerializer
+                                .plainText().serialize(event.message())));
+            }        }
+
     }
 }

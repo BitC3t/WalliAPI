@@ -9,4 +9,7 @@ depend:
 description: A Paper Plugin / API for everything related to Wallibear
 commands:
   walliapi:
-    Description: API Command
+    description: API Command
+    permission: walli.ops
+  toggle-glow:
+    description: Glow Toggle Command

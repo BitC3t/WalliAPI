@@ -73,6 +73,44 @@ public class SpectatorEvents implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onHitBody(EntityDamageByEntityEvent event) {
+        if(!(event.getEntity() instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getEntity();
+
+        if(!(event.getDamager() instanceof Player)) {
+            return;
+        }
+
+        Player damager = (Player) event.getDamager();
+
+        WalliPlayer walliPlayer = WalliAPI.getInstance().getWalliPlayer(player);
+
+        if(walliPlayer.isSpectator()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWorldBorder(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getEntity();
+        WalliPlayer walliPlayer = WalliAPI.getInstance().getWalliPlayer(player);
+
+        if(walliPlayer.isSpectator()) {
+            if(event.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         WalliPlayer wp = this.plugin.getWalliPlayer(event.getPlayer());
@@ -128,7 +166,7 @@ public class SpectatorEvents implements Listener {
                     ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
                     SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
                     skullMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(page1.getPlayer().getName()));
+                            deserialize(ChatColor.translateAlternateColorCodes('&', page1.getTeam().getTeamColor() + page1.getPlayer().getName())));
 
                     skullMeta.setOwningPlayer(page1.getPlayer());
                     skullItem.setItemMeta(skullMeta);
@@ -148,7 +186,7 @@ public class SpectatorEvents implements Listener {
                     ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
                     SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
                     skullMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(page2.getPlayer().getName()));
+                            deserialize(ChatColor.translateAlternateColorCodes('&', page2.getTeam().getTeamColor() + page2.getPlayer().getName())));
 
                     skullMeta.setOwningPlayer(page2.getPlayer());
                     skullItem.setItemMeta(skullMeta);
@@ -176,7 +214,7 @@ public class SpectatorEvents implements Listener {
                     ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
                     SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
                     skullMeta.displayName(PlainTextComponentSerializer.plainText().
-                            deserialize(page3.getPlayer().getName()));
+                            deserialize(ChatColor.translateAlternateColorCodes('&', page3.getTeam().getTeamColor() + page3.getPlayer().getName())));
 
                     skullMeta.setOwningPlayer(page3.getPlayer());
                     skullItem.setItemMeta(skullMeta);
@@ -202,6 +240,10 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent event) {
+        if(event.getClickedInventory() == null) {
+            return;
+        }
+
         if(event.getClickedInventory().equals(inventory)) {
             event.setCancelled(true);
             if(event.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
@@ -280,6 +322,20 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void pickupEvent(EntityPickupItemEvent event) {
+        if(!(event.getEntity() instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getEntity();
+        WalliPlayer wp = this.plugin.getWalliPlayer(player);
+
+        if(wp.isSpectator()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDrop(EntityDropItemEvent event) {
         if(!(event.getEntity() instanceof Player)) {
             return;
         }

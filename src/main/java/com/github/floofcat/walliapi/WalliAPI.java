@@ -1,8 +1,10 @@
 package com.github.floofcat.walliapi;
 
 import com.github.floofcat.walliapi.commands.ComExecutor;
+import com.github.floofcat.walliapi.commands.ToggleGlowExecutor;
 import com.github.floofcat.walliapi.events.ChatEvents;
 import com.github.floofcat.walliapi.events.RegistryEvents;
+import com.github.floofcat.walliapi.events.WorldBorderEvents;
 import com.github.floofcat.walliapi.game.GameRegistry;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
 import com.github.floofcat.walliapi.objects.teams.TeamController;
@@ -21,6 +23,8 @@ public final class WalliAPI extends JavaPlugin {
     private TeamRegistry teamRegistry = new TeamRegistry(this);
     private GameRegistry gameRegistry = new GameRegistry(this);
     private static WalliAPI instance;
+    private boolean splitChat = false;
+    public static boolean chatMuted = false;
 
     @Override
     public void onEnable() {
@@ -79,11 +83,21 @@ public final class WalliAPI extends JavaPlugin {
     private void registerCommands() {
         this.getCommand("walliapi").setExecutor(new ComExecutor(this));
         this.getCommand("walliapi").setTabCompleter(new ComExecutor(this));
+        this.getCommand("toggle-glow").setExecutor(new ToggleGlowExecutor());
     }
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new RegistryEvents(this), this);
         Bukkit.getPluginManager().registerEvents(new SpectatorEvents(this), this);
-        Bukkit.getPluginManager().registerEvents(new ChatEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new ChatEvents(this), this);
+        Bukkit.getPluginManager().registerEvents(new WorldBorderEvents(), this);
+    }
+
+    public void setSplitChat(boolean chat) {
+        this.splitChat = chat;
+    }
+
+    public boolean isSplitChat() {
+        return splitChat;
     }
 }

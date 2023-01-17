@@ -2,6 +2,7 @@ package com.github.floofcat.walliapi.utils;
 
 import com.github.floofcat.walliapi.objects.WalliPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.inventivetalent.glow.GlowAPI;
 
@@ -28,5 +29,9 @@ public class GlowUtils {
 
     public static void stopGlow(WalliPlayer wp) {
         GlowAPI.setGlowing(wp.getPlayer(), null, Bukkit.getOnlinePlayers());
+    }
+
+    public static void stopGlowtoPlayer(WalliPlayer wp, Player hiddenPlayer) {
+        GlowAPI.setGlowing(wp.getPlayer(), null, hiddenPlayer);
     }
 }

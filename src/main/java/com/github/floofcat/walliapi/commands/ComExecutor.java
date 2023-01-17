@@ -21,7 +21,7 @@ import java.util.List;
 public class ComExecutor implements CommandExecutor, TabCompleter {
 
     private final WalliAPI plugin;
-    private List<String> commands = Arrays.asList("set-team","set-spectator", "info");
+    private List<String> commands = Arrays.asList("set-team","set-spectator", "info", "split-chat", "mute");
 
     public ComExecutor(WalliAPI plugin) {
         this.plugin = plugin;
@@ -56,6 +56,14 @@ public class ComExecutor implements CommandExecutor, TabCompleter {
             case "info":
                 InformationCommand informationCommand = new InformationCommand(this.plugin);
                 informationCommand.execute(args, player);
+                break;
+            case "split-chat":
+                ChatCommand chatCommand = new ChatCommand(this.plugin);
+                chatCommand.execute(args, player);
+                break;
+            case "mute":
+                MuteCommand muteCommand = new MuteCommand(this.plugin);
+                muteCommand.execute(args, player);
                 break;
 
         }
