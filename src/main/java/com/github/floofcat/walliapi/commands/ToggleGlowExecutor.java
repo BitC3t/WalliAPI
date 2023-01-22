@@ -3,6 +3,7 @@ package com.github.floofcat.walliapi.commands;
 import com.github.floofcat.walliapi.WalliAPI;
 import com.github.floofcat.walliapi.objects.WalliPlayer;
 import com.github.floofcat.walliapi.utils.GlowUtils;
+import com.nametagedit.plugin.NametagEdit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,6 +49,7 @@ public class ToggleGlowExecutor implements CommandExecutor {
                 GlowUtils.setGlow(w);
             }
 
+            this.toggleGlowedPlayers.remove(player);
             return;
         }
 
@@ -62,6 +64,10 @@ public class ToggleGlowExecutor implements CommandExecutor {
             }
 
             GlowUtils.stopGlowtoPlayer(w, wp.getPlayer());
+
+            NametagEdit.getApi().clearNametag(w.getPlayer());
+            NametagEdit.getApi().reloadNametag(w.getPlayer());
+            NametagEdit.getApi().setNametag(w.getPlayer(), w.getTeam().getTeamColor(), "");
         }
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 public class ComExecutor implements CommandExecutor, TabCompleter {
 
     private final WalliAPI plugin;
-    private List<String> commands = Arrays.asList("set-team","set-spectator", "info", "split-chat", "mute");
+    private List<String> commands = Arrays.asList("set-team","set-spectator", "info", "split-chat", "mute", "randomize");
 
     public ComExecutor(WalliAPI plugin) {
         this.plugin = plugin;
@@ -65,6 +65,9 @@ public class ComExecutor implements CommandExecutor, TabCompleter {
                 MuteCommand muteCommand = new MuteCommand(this.plugin);
                 muteCommand.execute(args, player);
                 break;
+            case "randomize":
+                RandomizeCommand randomizeCommand = new RandomizeCommand(this.plugin);
+                randomizeCommand.execute(player);
 
         }
     }

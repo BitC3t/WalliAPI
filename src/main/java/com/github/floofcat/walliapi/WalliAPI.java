@@ -10,12 +10,15 @@ import com.github.floofcat.walliapi.objects.WalliPlayer;
 import com.github.floofcat.walliapi.objects.teams.TeamController;
 import com.github.floofcat.walliapi.objects.teams.TeamRegistry;
 import com.github.floofcat.walliapi.spectator.SpectatorEvents;
+import com.github.floofcat.walliapi.utils.ParticleUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class WalliAPI extends JavaPlugin {
 
@@ -25,6 +28,7 @@ public final class WalliAPI extends JavaPlugin {
     private static WalliAPI instance;
     private boolean splitChat = false;
     public static boolean chatMuted = false;
+    public static List<Player> mutedPlayers = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -42,6 +46,8 @@ public final class WalliAPI extends JavaPlugin {
         // Registration of Events & Commands
         this.registerEvents();
         this.registerCommands();
+
+        ParticleUtils.init();
     }
 
     @Override

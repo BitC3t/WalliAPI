@@ -1,7 +1,6 @@
 package com.github.floofcat.walliapi.commands;
 
 import com.github.floofcat.walliapi.WalliAPI;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

@@ -6,7 +6,12 @@ import com.github.floofcat.walliapi.objects.teams.Team;
 import com.github.floofcat.walliapi.spectator.SpectatorEvents;
 import com.github.floofcat.walliapi.spectator.SpectatorUtils;
 import com.github.floofcat.walliapi.utils.GlowUtils;
+import com.nametagedit.plugin.NametagEdit;
+import com.nametagedit.plugin.api.NametagAPI;
+import com.nametagedit.plugin.api.data.Nametag;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -92,11 +97,15 @@ public class WalliPlayer {
         }
 
         WalliAPI.getInstance().getTeamRegistry().switchTeam(this.player, team);
+
+        NametagEdit.getApi().setPrefix(player, this.team.getTeamColor());
     }
 
     // Run only in onJoinEvents.
     public void apiSetup() {
         this.player = Bukkit.getPlayer(this.uuid);
+
+        NametagEdit.getApi().setPrefix(this.player, this.team.getTeamColor());
     }
 
     // Run only in onLeaveEvents.

@@ -29,6 +29,16 @@ public class ChatEvents implements Listener {
 
         if(this.plugin.chatMuted) {
             event.setCancelled(true);
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                p.sendActionBar(PlainTextComponentSerializer.plainText().deserialize(ChatColor.RED + "Chat is now muted."));
+            }
+            return;
+        }
+
+        if(this.plugin.mutedPlayers.contains(player)) {
+            event.setCancelled(true);
+            player.sendActionBar(PlainTextComponentSerializer.plainText().deserialize(ChatColor.RED + "You have been muted."));
+
             return;
         }
 
@@ -37,7 +47,7 @@ public class ChatEvents implements Listener {
         if(player.isOp()) {
             for(Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        team.getTeamColor() + "🛡 [ADMIN]" + player.getName() + "&f: " + PlainTextComponentSerializer
+                        team.getTeamColor() + "🛡 [ADMIN] " + player.getName() + "&f: " + PlainTextComponentSerializer
                                 .plainText().serialize(event.message())));
             }
             return;

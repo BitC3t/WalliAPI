@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -89,8 +90,23 @@ public class SpectatorEvents implements Listener {
         Player damager = (Player) event.getDamager();
 
         WalliPlayer walliPlayer = WalliAPI.getInstance().getWalliPlayer(player);
+        WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(damager);
 
         if(walliPlayer.isSpectator()) {
+            event.setCancelled(true);
+        }
+
+        if(wp.isSpectator()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDropEvent(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(player);
+
+        if(wp.isSpectator()) {
             event.setCancelled(true);
         }
     }
