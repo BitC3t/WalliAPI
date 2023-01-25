@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.data.type.Wall;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -98,6 +101,46 @@ public class SpectatorEvents implements Listener {
 
         if(wp.isSpectator()) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDamageMob(EntityDamageByEntityEvent event) {
+        Entity entity = event.getEntity();
+
+        if(!(event.getDamager() instanceof Player)) {
+            return;
+        }
+
+        Player damager = (Player) event.getDamager();
+        WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(damager);
+
+        if(wp.isSpectator()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onVehicleEntry(VehicleEnterEvent event) {
+        if(event.getEntered() instanceof Player) {
+            Player player = (Player) event.getEntered();
+            WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(player);
+
+            if(wp.isSpectator()) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onVehicleDestroy(VehicleDestroyEvent event) {
+        if(event.getAttacker() instanceof Player) {
+            Player player = (Player) event.getAttacker();
+            WalliPlayer wp = WalliAPI.getInstance().getWalliPlayer(player);
+
+            if(wp.isSpectator()) {
+                event.setCancelled(true);
+            }
         }
     }
 
